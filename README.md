@@ -32,8 +32,8 @@ A beautiful, animated birthday webapp created with love for a very special and s
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/birthday-webapp.git
-cd birthday-webapp
+git clone https://github.com/yourusername/birthday.git
+cd birthday
 ```
 
 2. Install dependencies:
