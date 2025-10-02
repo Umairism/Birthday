@@ -1,11 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { Music, Volume2, VolumeX } from 'lucide-react';
+import { Music, Volume2 } from 'lucide-react';
 
 export default function MusicToggle() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioContextRef = useRef<AudioContext | null>(null);
-  const oscillatorRef = useRef<OscillatorNode | null>(null);
-  const gainNodeRef = useRef<GainNode | null>(null);
 
   const notes = [
     { freq: 523.25, duration: 0.3 },
@@ -26,7 +24,8 @@ export default function MusicToggle() {
 
   const playMelody = async () => {
     try {
-      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      audioContextRef.current = new AudioContextClass();
       const audioContext = audioContextRef.current;
 
       let currentTime = audioContext.currentTime;

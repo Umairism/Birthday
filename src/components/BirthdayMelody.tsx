@@ -1,17 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 
 export default function BirthdayMelody() {
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const playBirthdayMelody = () => {
+  const playBirthdayMelody = useCallback(() => {
     if (isPlaying) return;
     
     setIsPlaying(true);
     
     try {
       // Create a complete birthday melody using Web Audio API
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const audioContext = new AudioContextClass();
       const notes = [
         // "Happy Birthday to You" - First line
         { freq: 261.63, duration: 400 }, // C - "Hap-"
@@ -76,7 +77,7 @@ export default function BirthdayMelody() {
       console.log('Audio playback not supported:', error);
       setIsPlaying(false);
     }
-  };
+  }, []);
 
   // Auto-play when component mounts
   useEffect(() => {
@@ -85,7 +86,7 @@ export default function BirthdayMelody() {
     }, 2000); // Start earlier for immediate musical greeting
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [playBirthdayMelody]);
 
   return (
     <button
